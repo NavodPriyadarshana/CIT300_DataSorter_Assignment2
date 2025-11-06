@@ -8,11 +8,31 @@ import java.util.*;
 public class DataSorter {
 
     // -------------------------
-    // Member 1: Bubble Sort
-    // -------------------------
-    static class BubbleSort {
-        // Navod will implement this
+    // Member 1: Bubble Sort (Navod)
+// -------------------------
+static class BubbleSort {
+    public static Result sort(int[] arr) {
+        int[] a = Arrays.copyOf(arr, arr.length);
+        int n = a.length;
+        int operations = 0;
+        long start = System.nanoTime();
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                operations++;
+                if (a[j] > a[j + 1]) {
+                    int temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
+            }
+        }
+
+        long end = System.nanoTime();
+        double time = (end - start) / 1e6;
+        return new Result("Bubble Sort", a, time, operations);
     }
+}
 
     // -------------------------
     // Member 2: Merge Sort
