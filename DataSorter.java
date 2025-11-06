@@ -77,12 +77,47 @@ static class MergeSort {
     }
 }
 
-    // -------------------------
-    // Member 3: Quick Sort
-    // -------------------------
-    static class QuickSort {
-        // Yasiru will implement this
+// -------------------------
+// Member 3: Quick Sort (Malisha)
+// -------------------------
+static class QuickSort {
+
+    public static Result sort(int[] arr) {
+        int[] a = Arrays.copyOf(arr, arr.length);
+        Counter counter = new Counter();
+        long start = System.nanoTime();
+        quickSort(a, 0, a.length - 1, counter);
+        long end = System.nanoTime();
+        double time = (end - start) / 1e6;
+        return new Result("Quick Sort", a, time, counter.count);
     }
+
+    private static void quickSort(int[] a, int low, int high, Counter counter) {
+        if (low < high) {
+            int pi = partition(a, low, high, counter);
+            quickSort(a, low, pi - 1, counter);
+            quickSort(a, pi + 1, high, counter);
+        }
+    }
+
+    private static int partition(int[] a, int low, int high, Counter counter) {
+        int pivot = a[high];
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            counter.count++;
+            if (a[j] < pivot) {
+                i++;
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        int temp = a[i + 1];
+        a[i + 1] = a[high];
+        a[high] = temp;
+        return i + 1;
+    }
+}
 
    // -------------------------
 // Member 4: Integration + Menu (Yasiru)
