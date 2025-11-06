@@ -84,14 +84,92 @@ static class MergeSort {
         // Yasiru will implement this
     }
 
-    // -------------------------
-    // Member 4: Integration + Menu
-    // -------------------------
-    static class DataManager {
-        // Pulindu will implement the menu, data input, and comparison
+   // -------------------------
+// Member 4: Integration + Menu (Yasiru)
+// -------------------------
+static class DataManager {
+
+    private static int[] data;
+
+    public static void run() {
+        Scanner sc = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n--- Data Sorter: Sorting Algorithm Comparison Tool ---");
+            System.out.println("1. Enter numbers manually");
+            System.out.println("2. Generate random numbers");
+            System.out.println("3. Perform Bubble Sort");
+            System.out.println("4. Perform Merge Sort");
+            System.out.println("5. Perform Quick Sort");
+            System.out.println("6. Compare all algorithms");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter numbers separated by spaces: ");
+                    String[] parts = sc.nextLine().trim().split("\\s+");
+                    data = new int[parts.length];
+                    for (int i = 0; i < parts.length; i++)
+                        data[i] = Integer.parseInt(parts[i]);
+                    System.out.println("✅ Data set stored.");
+                    break;
+
+                case "2":
+                    System.out.print("Enter number of elements: ");
+                    int n = Integer.parseInt(sc.nextLine());
+                    data = new Random().ints(n, 1, 100).toArray();
+                    System.out.println("✅ Random data generated.");
+                    break;
+
+                case "3":
+                    if (checkData()) System.out.println(BubbleSort.sort(data));
+                    break;
+
+                case "4":
+                    if (checkData()) System.out.println(MergeSort.sort(data));
+                    break;
+
+                case "5":
+                    if (checkData()) System.out.println(QuickSort.sort(data));
+                    break;
+
+                case "6":
+                    if (checkData()) compareAll();
+                    break;
+
+                case "0":
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+        sc.close();
+        System.out.println("👋 Program terminated.");
     }
 
-    public static void main(String[] args) {
-        // Will call DataManager.run();
+    private static boolean checkData() {
+        if (data == null || data.length == 0) {
+            System.out.println("⚠ Please enter or generate data first!");
+            return false;
+        }
+        return true;
+    }
+
+    private static void compareAll() {
+        Result b = BubbleSort.sort(data);
+        Result m = MergeSort.sort(data);
+        Result q = QuickSort.sort(data);
+
+        System.out.println("\n--- Algorithm Comparison ---");
+        System.out.printf("%-15s %-15s %-15s%n", "Algorithm", "Time (ms)", "Operations");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-15s %-15.3f %-15d%n", b.name, b.time, b.operations);
+        System.out.printf("%-15s %-15.3f %-15d%n", m.name, m.time, m.operations);
+        System.out.printf("%-15s %-15.3f %-15d%n", q.name, q.time, q.operations);
     }
 }
